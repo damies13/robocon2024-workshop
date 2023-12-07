@@ -1,0 +1,113 @@
+[Scenario]
+uploadmode = err
+scriptcount = 3
+graphlist = 64aea098-4,640fd035-1,640fe552-3,640fd044-2,64c66016-29
+
+[1]
+robots = 40
+delay = 0
+rampup = 600
+run = 600
+test = Opencart Sales
+script = opencart.robot
+excludelibraries = String,OperatingSystem,perftest,SeleniumLibrary,BuiltIn,FakerLibrary
+
+[2]
+robots = 2
+delay = 0
+rampup = 120
+run = 1560
+test = Process Orders
+script = opencart.robot
+excludelibraries = String,OperatingSystem,perftest,SeleniumLibrary,BuiltIn,FakerLibrary
+
+[3]
+robots = 1
+delay = 0
+rampup = 60
+run = 1680
+test = Replenish Stock
+script = opencart.robot
+excludelibraries = String,OperatingSystem,perftest,SeleniumLibrary,BuiltIn,FakerLibrary
+
+[64aea098-4]
+id = 64aea098-4
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 2100
+win_location_y = 554
+win_screen = :0.0
+name = Agent Load
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Agent
+primary_metric = 
+secondary_metric = Load
+
+[640fd035-1]
+id = 640fd035-1
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 2100
+win_location_y = 175
+win_screen = :0.0
+name = Running Robots
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Scenario
+primary_metric = 
+secondary_metric = total_robots
+
+[640fe552-3]
+id = 640fe552-3
+open = True
+win_width = 716
+win_height = 372
+win_location_x = 600
+win_location_y = 1068
+win_screen = :0.0
+name = 90 %%ile
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Summary
+primary_metric = 
+secondary_metric = 90%%ile
+
+[640fd044-2]
+id = 640fd044-2
+open = True
+win_width = 1200
+win_height = 582
+win_location_x = 1360
+win_location_y = 858
+win_screen = :0.0
+name = Response Time
+show_settings = False
+show_legend = 1
+data_type = Result
+result_type = Response Time
+flter_result = Pass
+filter_name = None
+filter_pattern = 
+
+[64c66016-29]
+id = 64c66016-29
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 77
+win_location_y = 1068
+win_screen = :0.0
+name = Agent CPU
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Agent
+primary_metric = 
+secondary_metric = CPU
+

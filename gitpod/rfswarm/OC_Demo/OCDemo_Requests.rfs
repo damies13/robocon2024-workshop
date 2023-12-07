@@ -1,0 +1,139 @@
+[Scenario]
+uploadmode = err
+scriptcount = 2
+graphlist = 6514f8a4-11,640fd035-1,640fe552-3,64c66016-29,640fd044-2,64aea098-4,651e459c-b
+
+[1]
+robots = 100
+delay = 60
+rampup = 600
+run = 1200
+test = Opencart Sales
+script = OC_Requests.robot
+excludelibraries = String,OperatingSystem,perftest,FakerLibrary,RequestsLibrary,BuiltIn
+filters = [{'rule': 'Require', 'optn': 'RobotFramework: Library: faker'}]
+
+[2]
+robots = 1
+delay = 0
+rampup = 10
+run = 2520
+test = Monitor Opencart Server
+script = opencart_monitoring.robot
+filters = [{'rule': 'Require', 'optn': 'RobotFramework: Library: sshlibrary'}]
+excludelibraries = BuiltIn,String,OperatingSystem,perftest,SSHLibrary,RequestsLibrary,Collections
+testrepeater = True
+
+[6514f8a4-11]
+id = 6514f8a4-11
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 451
+win_location_y = 1068
+win_screen = :0.0
+name = Agent Memory
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Agent
+primary_metric = 
+secondary_metric = MEM
+
+[640fd035-1]
+id = 640fd035-1
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 2100
+win_location_y = 175
+win_screen = :0.0
+name = Running Robots
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Scenario
+primary_metric = 
+secondary_metric = total_robots
+
+[640fe552-3]
+id = 640fe552-3
+open = True
+win_width = 716
+win_height = 372
+win_location_x = 600
+win_location_y = 1068
+win_screen = :0.0
+name = 90 %%ile
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Summary
+primary_metric = 
+secondary_metric = 90%%ile
+
+[64c66016-29]
+id = 64c66016-29
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 77
+win_location_y = 1068
+win_screen = :0.0
+name = Agent CPU
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Agent
+primary_metric = 
+secondary_metric = CPU
+
+[640fd044-2]
+id = 640fd044-2
+open = True
+win_width = 1200
+win_height = 582
+win_location_x = 1360
+win_location_y = 858
+win_screen = :0.0
+name = Response Time
+show_settings = False
+show_legend = 1
+data_type = Result
+result_type = Response Time
+flter_result = Pass
+filter_name = None
+filter_pattern = 
+
+[64aea098-4]
+id = 64aea098-4
+open = True
+win_width = 460
+win_height = 372
+win_location_x = 2100
+win_location_y = 554
+win_screen = :0.0
+name = Agent Load
+show_settings = False
+show_legend = 1
+data_type = Metric
+metric_type = Agent
+primary_metric = 
+secondary_metric = Load
+
+[651e459c-b]
+id = 651e459c-b
+open = True
+win_width = 741
+win_height = 372
+win_location_x = 2583
+win_location_y = 133
+win_screen = :0.0
+name = New Graph 11
+show_settings = True
+show_legend = 1
+data_type = Metric
+metric_type = 
+primary_metric = 
+secondary_metric = vmstat: CPU: Idle
+

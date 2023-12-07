@@ -1,0 +1,14 @@
+[Scenario]
+uploadmode = err
+scriptcount = 1
+graphlist = 
+
+[1]
+robots = 50
+delay = 0
+rampup = 600
+run = 1200
+test = Opencart Sales
+script = OC_Requests.robot
+excludelibraries = String,OperatingSystem,perftest,FakerLibrary,RequestsLibrary,BuiltIn
+
