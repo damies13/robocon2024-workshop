@@ -1,2 +1,2 @@
 pip3 install -r requirements.txt
-python -m Browser.entry init
+# python -m Browser.entry init

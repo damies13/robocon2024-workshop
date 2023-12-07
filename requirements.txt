@@ -1,7 +1,0 @@
-robotframework
-robotframework-browser
-robotframework-seleniumlibrary
-robotframework-requests
-robotframework-soaplibrary
-robotframework-jsonlibrary
-pyotp
