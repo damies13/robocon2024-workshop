@@ -5,14 +5,14 @@ Library		FakerLibrary
 Resource    perftest.robot
 
 *** Variables ***
-${StoreHost} 	192.168.13.66
-${StorePage} 	https://${StoreHost}
+${StoreHost} 	192.168.13.69
+${StorePage} 	http://${StoreHost}
 ${AdminPage} 	${StorePage}/admin
 
 # ${ThinkTime}	30
-${ThinkTime}	15
+# ${ThinkTime}	15
 # ${ThinkTime}	5
-# ${ThinkTime}	1
+${ThinkTime}	1
 
 ${RFS_ROBOT}	1
 ${WaitTimout}		120
@@ -145,26 +145,33 @@ Add To Cart
 	Set Suite Variable    $PrevResponse    ${LastResponse}
 	# POST 	https://192.168.13.66/index.php?route=checkout/cart/add 	quantity=13&product_id=43
 	${data}=	Create Dictionary    quantity=${quantity} 	product_id=${productid}[0]
-	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/cart/add 	data=${data}
+	# ${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/cart/add 	data=${data}
+	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/cart.add&language=en-gb 	data=${data}
 
 	# GET 	https://192.168.13.66/index.php?route=common/cart/info
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=common/cart/info
+	# ${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=common/cart/info
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=common/cart.info
 	Get Resources 	${resp}
 	Set Suite Variable    $LastResponse    ${PrevResponse}
 
 Open Cart
 	[Documentation]		Open Cart (Requests)
 	# http://192.168.13.66/index.php?route=checkout/cart
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/cart
+	# ${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/cart
+	${resp}= 	GET on Session 	OpenCart 	url=/en-gb?route=checkout/cart
+	${hdrs}= 	Create Dictionary    Referer=https://${StoreHost}/en-gb?route=checkout/cart
+	Update Session 	OpenCart 	headers=${hdrs}
 	Get Resources 	${resp}
 
 Checkout Step 1
 	[Documentation]		Checkout - Checkout Options (Step 1) (Requests)
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/checkout
-	${hdrs}= 	Create Dictionary    Referer=https://${StoreHost}/index.php?route=checkout/checkout
+	# ${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/checkout
+	${resp}= 	GET on Session 	OpenCart 	url=/en-gb?route=checkout/checkout
+	# ${hdrs}= 	Create Dictionary    Referer=https://${StoreHost}/index.php?route=checkout/checkout
+	${hdrs}= 	Create Dictionary    Referer=https://${StoreHost}/en-gb?route=checkout/checkout
 	Update Session 	OpenCart 	headers=${hdrs}
 	Get Resources 	${resp}
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/login
+	# ${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/login
 
 Checkout Step 2
 	[Documentation]		Checkout - Billing Details (Step 2) (Requests)
