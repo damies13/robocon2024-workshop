@@ -43,11 +43,7 @@ Opencart Sales
 	Sleep    ${ThinkTime}
 	Checkout Step 3
 	Sleep    ${ThinkTime}
-	# Checkout Step 4
-	# Sleep    ${ThinkTime}
-	Checkout Step 5
-	Sleep    ${ThinkTime}
-	Checkout Step 6
+	Checkout Step 4
 	Sleep    ${ThinkTime}
 	Confirm Order
 	Sleep    ${ThinkTime}
@@ -171,17 +167,10 @@ Checkout Step 1
 	${hdrs}= 	Create Dictionary    Referer=https://${StoreHost}/en-gb?route=checkout/checkout
 	Update Session 	OpenCart 	headers=${hdrs}
 	Get Resources 	${resp}
-	# ${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/login
+	# ${resp}= 	GET on Session 	OpenCart 	url=/en-gb?route=checkout/checkout
 
 Checkout Step 2
-	[Documentation]		Checkout - Billing Details (Step 2) (Requests)
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/guest
-	Get Resources 	${resp}
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/checkout/customfield&customer_group_id=1
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/checkout/country&country_id=222
-
-Checkout Step 3
-	[Documentation]		Checkout - Delivery Details (Step 3) (Requests)
+	[Documentation]		Checkout - Guest Account (Step 2) (Requests)
 	${fname}= 	First Name
 	${lname}= 	Last Name
 	${email}= 	Email
@@ -190,52 +179,68 @@ Checkout Step 3
 	${city}= 	City
 	${postcode}= 	Postcode
 
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/checkout/country&country_id=223
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=localisation/country&language=en-gb&country_id=223
 	# zone_id"[^"]*"([^"]*)
 	${zone_ids}= 	Get Regexp Matches 	${resp.text} 	zone_id"[^"]*"([^"]*)  	1
+
 	${count}= 	Get Length 	${zone_ids}
 	${random}= 	Evaluate 	random.randint(0, ${count-1})
 	${zone_id}=		Set Variable    ${zone_ids}[${random}]
-	# customer_group_id=1&firstname=a&lastname=b&email=c%40c.co&telephone=123456789&company=&address_1=12+some
-	# 		&address_2=&city=city&postcode=1234&country_id=223&zone_id=3626&shipping_address=1
-	${data}=	Create Dictionary    customer_group_id=1 	firstname=${fname} 	lastname=${lname} 	email=${email}
-	... 	telephone=${phone} 	company= 	address_1=${addr} 	address_2= 	city=${city} 	postcode=${postcode}
-	...		country_id=${223} 	zone_id=${zone_id} 	shipping_address=1
-	# POST 		/index.php?route=checkout/guest/save
-	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/guest/save 	data=${data}
+
+	${data}=	Create Dictionary    account=0 	customer_group_id=1 	firstname=${fname} 	lastname=${lname}
+	... 	email=${email} 	shipping_company= 	shipping_address_1=${addr} 	shipping_address_2=
+	... 	shipping_city=${city} 	shipping_postcode=${postcode} 	shipping_country_id=${223} 	shipping_zone_id=${zone_id}
+
+	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/register.save&language=en-gb 	data=${data}
 	Get Resources 	${resp}
 
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/shipping_method
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/guest_shipping
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/checkout/country&country_id=223
-
-# # Checkout Step 4
-# 	[Documentation]		Checkout - Delivery Method (Step 4)
-Checkout Step 5
-	[Documentation]		Checkout - Payment Method (Step 5) (Requests)
-	# shipping_method=flat.flat&comment=
-	${data}=	Create Dictionary    shipping_method=flat.flat 	comment=
-	# Request URL:https://192.168.13.66/index.php?route=checkout/shipping_method/save
-	# Request Method:POST
-	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/shipping_method/save 	data=${data}
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/confirm.confirm&language=en-gb
 	Get Resources 	${resp}
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/payment_method
 
-Checkout Step 6
-	[Documentation]		Checkout - Confirm Order (Step 6) (Requests)
-	# payment_method=cod&comment=&agree=1
-	${data}=	Create Dictionary    payment_method=cod 	comment= 	agree=1
-	# Request URL:https://192.168.13.66/index.php?route=checkout/payment_method/save
-	# Request Method:POST
-	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/payment_method/save 	data=${data}
+Checkout Step 3
+	[Documentation]		Checkout - Shipping (Step 3) (Requests)
+
+	# GET
+	# http://192.168.13.69/index.php?route=checkout/shipping_method.quote&language=en-gb
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/shipping_method.quote&language=en-gb
 	Get Resources 	${resp}
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/confirm
+
+	# POST
+	# http://192.168.13.69/index.php?route=checkout/shipping_method.save&language=en-gb
+		# shipping_method=flat.flat
+	${data}=	Create Dictionary    shipping_method=flat.flat
+	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/shipping_method.save&language=en-gb 	data=${data}
+	Get Resources 	${resp}
+
+	# GET
+	# http://192.168.13.69/index.php?route=checkout/confirm.confirm&language=en-gb
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/confirm.confirm&language=en-gb
+	Get Resources 	${resp}
+
+Checkout Step 4
+	[Documentation]		Checkout - Payment Method (Step 4) (Requests)
+
+		# http://192.168.13.69/index.php?route=checkout/payment_method.getMethods&language=en-gb
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/payment_method.getMethods&language=en-gb
+	Get Resources 	${resp}
+
+		# http://192.168.13.69/index.php?route=checkout/payment_method.save&language=en-gb
+	${data}=	Create Dictionary    payment_method=cod.cod
+	${resp}= 	POST On Session 	OpenCart 	url=/index.php?route=checkout/payment_method.save&language=en-gb 	data=${data}
+	Get Resources 	${resp}
+
+		# http://192.168.13.69/index.php?route=checkout/confirm.confirm&language=en-gb
+	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/confirm.confirm&language=en-gb
+	Get Resources 	${resp}
 
 Confirm Order
 	[Documentation]		Confirm Order (Requests)
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=extension/payment/cod/confirm
-	${resp}= 	GET on Session 	OpenCart 	url=/index.php?route=checkout/success
+
+		# http://192.168.13.69/en-gb?route=checkout/success
+	${resp}= 	GET on Session 	OpenCart 	url=/en-gb?route=checkout/success
+	Should Contain 	 ${resp.text} 	Your order has been successfully processed
 	Get Resources 	${resp}
+
 
 
 #

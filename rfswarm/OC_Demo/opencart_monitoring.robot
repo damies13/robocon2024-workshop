@@ -10,7 +10,7 @@ Library					RequestsLibrary
 Library					json
 
 *** Variables ***
-${HOST}                192.168.13.66
+${HOST}                192.168.13.69
 ${USERNAME}            PTMon
 ${PASSWORD}            ptm0n
 
@@ -59,7 +59,8 @@ lscpu
 	${dict}=	Create Dictionary
 	FOR 	${line} 	IN		@{lines}
 		IF  len("${line}") > 3
-			${key}	${val}=		Set Variable	${line.split(":")}
+			${key}	${val}=		Set Variable	${line.split(":", 1)}
+			IF  "${key}" == "Flags" 		BREAK
 			Set To Dictionary	${dict} 	${key.strip()}		${val.strip()}
 		END
 	END
