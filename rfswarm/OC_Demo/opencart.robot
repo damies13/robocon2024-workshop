@@ -13,7 +13,8 @@ Suite Teardown 	Close All Browsers
 *** Variables ***
 # https://demo.opencart.com/
 # ${StoreHost} 	192.168.13.66
-${StoreHost} 	192.168.13.69
+# ${StoreHost} 	192.168.13.69
+${StoreHost} 	10.10.0.82
 # ${StorePage} 	https://${StoreHost}
 ${StorePage} 	http://${StoreHost}
 # ${AdminPage} 	${StorePage}/admin

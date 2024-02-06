@@ -5,7 +5,7 @@ Library		FakerLibrary
 Resource    perftest.robot
 
 *** Variables ***
-${StoreHost} 	192.168.13.69
+${StoreHost} 	10.10.0.82
 ${StorePage} 	http://${StoreHost}
 ${AdminPage} 	${StorePage}/admin
 

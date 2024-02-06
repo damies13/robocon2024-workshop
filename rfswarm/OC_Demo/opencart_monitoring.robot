@@ -10,7 +10,7 @@ Library					RequestsLibrary
 Library					json
 
 *** Variables ***
-${HOST}                192.168.13.69
+${HOST}                10.10.0.82
 ${USERNAME}            PTMon
 ${PASSWORD}            ptm0n
 
